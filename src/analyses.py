@@ -23,21 +23,10 @@ TABLE_KEY_COLUMNS = {
 }
 
 QUALITY_NOTES = {
-    "agency": (
-        "Aucune valeur NULL. "
-        "Aucun doublon détecté sur agency_id."
-    ),
-    "calendar": (
-        "Aucune valeur NULL. "
-        "Aucun doublon détecté sur service_id."
-    ),
-    "calendar_dates": (
-        "Aucune valeur NULL détectée."
-    ),
-    "routes": (
-        "Aucune valeur NULL. "
-        "Aucun doublon détecté sur route_id."
-    ),
+    "agency": ("Aucune valeur NULL. Aucun doublon détecté sur agency_id."),
+    "calendar": ("Aucune valeur NULL. Aucun doublon détecté sur service_id."),
+    "calendar_dates": ("Aucune valeur NULL détectée."),
+    "routes": ("Aucune valeur NULL. Aucun doublon détecté sur route_id."),
     "stop_times": (
         "Aucune valeur NULL. "
         "Des horaires supérieurs ou égaux à 24:00 sont présents ; "
@@ -48,14 +37,10 @@ QUALITY_NOTES = {
         "à location_type = 1. Aucun doublon sur stop_id et aucune "
         "coordonnée hors des limites géographiques."
     ),
-    "transfers": (
-        "Aucune valeur NULL détectée."
-    ),
-    "trips": (
-        "Aucune valeur NULL. "
-        "Aucun doublon détecté sur trip_id."
-    ),
+    "transfers": ("Aucune valeur NULL détectée."),
+    "trips": ("Aucune valeur NULL. Aucun doublon détecté sur trip_id."),
 }
+
 
 def get_table_volumes():
     """Retourne le nombre de lignes pour chaque table."""
@@ -68,6 +53,7 @@ def get_table_volumes():
         volumes.append((table_name, row_count))
 
     return volumes
+
 
 def get_database_map():
     """Retourne la cartographie des tables de la base."""

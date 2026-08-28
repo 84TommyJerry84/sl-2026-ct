@@ -75,6 +75,7 @@ def count_nulls(table_name):
 
     return results
 
+
 def count_null_parent_station_by_location_type():
     """Compte les parent_station NULL par location_type."""
     with closing(get_connection()) as conn:  # noqa: SIM117
@@ -91,6 +92,7 @@ def count_null_parent_station_by_location_type():
                 )
 
                 return cur.fetchall()
+
 
 def find_duplicate_stop_ids():
     """Retourne les stop_id présents plusieurs fois."""
@@ -128,6 +130,7 @@ def find_invalid_coordinates():
 
                 return cur.fetchall()
 
+
 def find_times_after_midnight():
     """Retourne quelques horaires GTFS supérieurs ou égaux à 24:00."""
     with closing(get_connection()) as conn:  # noqa: SIM117
@@ -146,6 +149,7 @@ def find_times_after_midnight():
 
                 return cur.fetchall()
 
+
 def find_duplicates(table_name, column_name):
     """Retourne les valeurs présentes plusieurs fois dans une colonne."""
     with closing(get_connection()) as conn:  # noqa: SIM117
@@ -163,6 +167,7 @@ def find_duplicates(table_name, column_name):
 
                 return cur.fetchall()
 
+
 def list_route_types():
     """Retourne les types de transport présents dans routes."""
     with closing(get_connection()) as conn:  # noqa: SIM117
@@ -177,7 +182,8 @@ def list_route_types():
                     """
                 )
 
-                return cur.fetchall() 
+                return cur.fetchall()
+
 
 def list_routes():
     """Retourne les lignes et leur type de transport."""
@@ -192,7 +198,9 @@ def list_routes():
                     """
                 )
 
-                return cur.fetchall()       
+                return cur.fetchall()
+
+
 def get_tram_stops():
     """Retourne les arrêts de tram avec leur ligne et leurs coordonnées."""
     with closing(get_connection()) as conn:  # noqa: SIM117
@@ -219,4 +227,4 @@ def get_tram_stops():
                     """
                 )
 
-                return cur.fetchall()       
+                return cur.fetchall()
