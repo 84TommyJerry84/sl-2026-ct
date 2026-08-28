@@ -5,17 +5,17 @@
 ## Présentation
 
 Ce projet utilise une base de données PostgreSQL distante avec les données GTFS
-des transport dl'île-de-France : métro, RER et tram
+des transports d'Île-de-France : métro, RER et tram.
 
 L'objectif est de :
 
-* cartographier la bdd avec du code python et du schéma de postgreSQL;
-* analyser la structure et la qualité des données;
-* extraire un jeu de donées ciblés et reutilisables;
-* exporter cet extrait au format CSV et Parquet;
-* doucmenter les données à l'aide d'un dictionnaire de données;
+* cartographier la base de données avec du code Python en interrogeant le schéma `information_schema` de PostgreSQL ;
+* analyser la structure et la qualité des données ;
+* extraire un jeu de données ciblé et réutilisable ;
+* exporter cet extrait au format CSV et Parquet ;
+* documenter les données à l'aide d'un dictionnaire de données.
 
-le cas d'usage est l'extraction des arrêts de tram avec leurs lignes 
+Le cas d'usage est l'extraction des arrêts de tram avec leurs lignes 
 et leurs coordonnées géographiques.
 
 ## Source des données
@@ -29,15 +29,15 @@ La connexion à PostgreSQL est configurée à l'aide de variables d'environnemen
 stockées dans un fichier .env local.
 Ce fichier contient les paramètres nécessaires à la connexion :
 
-* DB_HOST
-* DB_PORT
-* DB_NAME
-* DB_USER
-* DB_PASSWORD
-* DB_SSLMODE
+* `DB_HOST`
+* `DB_PORT`
+* `DB_NAME`
+* `DB_USER`
+* `DB_PASSWORD`
+* `DB_SSLMODE`
 
-pour la sécurité le fichier .env n'est pas versionné afin de ne pas 
-exposer les informations de connexion. Un fichier .env.example est 
+Pour la sécurité, le fichier `.env` n'est pas versionné afin de ne pas
+exposer les informations de connexion. Un fichier `.env.example` est 
 fourni dans le dépôt pour indiquer les variables à mettre sans contenir
 de valeurs sensibles.
 
@@ -45,7 +45,7 @@ de valeurs sensibles.
 
 Le projet est organisé de la manière suivante :
 
-```bash
+```text
 sl-2026-ct/
 │
 ├── src/
@@ -69,31 +69,29 @@ sl-2026-ct/
 
 ### Rôle des principaux fichiers
 
-* `src/connection.py` : configure et ouvre la connexion à la base PostegreSQL.
-* `src/queries.py` : regroupe toutes les requetes SQL utilisées pour explorer la bdd, effectuer le controle qualité et extraire les données.
-* `src/analyses.py` : 
-* `src/export` : génere les livrables demandés(cartographie,CSV,Parquet et dictionnaire de données).
+* `src/connection.py` : configure et ouvre la connexion à la base PostgreSQL.
+* `src/queries.py` : regroupe les requêtes SQL utilisées pour explorer la base, effectuer les contrôles qualité et extraire les données.
+* `src/analyses.py` : organise les informations nécessaires à la cartographie et regroupe les descriptions métier, les colonnes clés et les constats de qualité.
+* `src/export.py` : génère les livrables demandés : cartographie, CSV, Parquet et dictionnaire de données.
 * `cartographie.md` : documente les tables, leurs colonnes, leurs types, leur volumétrie et les premiers aspects qualité de la donnée.
-* `dictionnaire_données.md` : 
+* `dictionnaire_donnees.md` : décrit les colonnes du jeu de données extrait, leur type, leur domaine, leur source et leur fraîcheur.
 * `data/` : contient le CSV et le Parquet généré localement, non versionnés par Git.
 * `.env.example` : indique les variables d'environnement nécessaires à la connexion sans secret.
-* `requirements.txt` : contient les dépandances Python nécessaires au projet avec leur versions figées.
-
-4. Configurer la connexion PostgreSQL
+* `requirements.txt` : contient les dépendances python nécessaires au projet avec leurs versions figées.
 
 ## Installation et configuration
 
 ### 1. Cloner le repository
 
 ```bash
-git clone <URL_DU_REPOSITORY>
+git clone https://github.com/84TommyJerry84/sl-2026-ct.git
 cd sl-2026-ct
 ```
 
 ### 2. Créer un environnement virtuel
 
 ```bash
-py -m venv env
+python -m venv env
 ```
 
 Sous PowerShell :
@@ -139,7 +137,8 @@ DB_PASSWORD=
 DB_SSLMODE=
 ```
 
-Renseigner les paramètres de connexion fournis pour accéder à la base PostgreSQL distante.
+Renseigner les paramètres de connexion fournis pour accéder à la base PostgreSQL
+distante.
 
 Pour cette base distante, le mode SSL utilisé est :
 
@@ -152,22 +151,22 @@ Le fichier `.env` reste local et n'est pas versionné dans Git.
 
 ## Génération des livrables
 
-Une fois l'environnement virutel mis en place, les dépendances installées et le
-fichier .env correctement rempli et configuré on peut générer tous les livrables
-en une seule commande qui est la suivante :
+Une fois l'environnement virtuel créé, les dépendances installées et le fichier
+`.env` correctement configuré, tous les livrables peuvent être générés avec une
+seule commande :
 
 ```bash
-py -m src.export
+python -m src.export
 ```
 
-cette commande va créer :
+Cette commande va créer :
 
-* `cartographie.md` : cartographie de la base de donnée PostgreSQL;
-* `dictionnaire_données` : definition des données de l'extrait;
-* `data/tram_stops.csv` : extrait au format csv;
-* `data/tram_stops.parquet` : extrait au format parquet;
+* `cartographie.md` : cartographie de la base de données PostgreSQL ;
+* `dictionnaire_donnees.md` : définition des données de l'extrait ;
+* `data/tram_stops.csv` : extrait au format CSV ;
+* `data/tram_stops.parquet` : extrait au format Parquet ;
 
-Les fichiers CSV et Parquet sont générés localement dans le dossier data/ et ne sont pas
+Les fichiers CSV et Parquet sont générés localement dans le dossier `data/` et ne sont pas
 versionnés dans Git. Ils peuvent être reconstruits à tout moment à partir du code.
 
 La commande s’appuie sur la fonction principale de `src/export.py`, qui exécute
@@ -175,14 +174,15 @@ successivement les différentes fonctions d’export.
 
 ## Jeu de données extrait
 
-Le choix s'est fait sur l'extraction de tous les arrêts de tram
-, leur ligne et leurs coordonnées géographiques.
+Le cas d'usage choisi est l'extraction de tous les arrêts de tram avec leur ligne
+et leurs coordonnées géographiques.
 
-le jeu de données est disponible sous deux formats :
+Le jeu de données est disponible sous deux formats :
+
 * `data/tram_stops.csv`
 * `data/tram_stops.parquet`
 
-Cet extrait contien au total 564 lignes et 5 colonnes :
+Lors de l'extraction de référence réalisée le 27/08/2026, le jeu contenait 564 lignes et 5 colonnes :
 
 * `line_name` : nom court de la ligne de tram ;
 * `stop_id` : identifiant GTFS de l'arrêt ;
@@ -193,7 +193,8 @@ Cet extrait contien au total 564 lignes et 5 colonnes :
 Une ligne représente l'association entre une ligne de tram et un point d'arrêt GTFS.
 
 Les données sont obtenues en reliant les tables :
-```
+
+```text
 routes
   ↓
 trips
@@ -202,7 +203,8 @@ stop_times
   ↓
 stops
 ```
-La table `routes` permet d'identifier la ligne, tandis que la table stops fournit le nom et les coordonnées de l'arrêt.
+
+La table `routes` permet d'identifier la ligne, tandis que la table `stops` fournit le nom et les coordonnées de l'arrêt.
 
 Un même nom d'arrêt peut apparaître plusieurs fois lorsque plusieurs `stop_id` distincts existent dans les données GTFS.
 Ces lignes ne sont donc pas supprimées lorsqu'elles représentent des points d'arrêt différents.
@@ -259,7 +261,7 @@ La fraîcheur du jeu de données correspond à la date à laquelle l'extraction 
 Cette date est ajoutée automatiquement dans `dictionnaire_donnees.md` lors de l'exécution de :
 
 ```bash
-py -m src.export
+python -m src.export
 ```
 
 Elle permet à l'utilisateur de savoir à quelle date les données ont été extraites et donc d'évaluer si elles sont 
